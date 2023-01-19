@@ -1,0 +1,212 @@
+@import './partials/reset';
+@import './partials/colors';
+
+h2 {
+  color: plum;
+  font: {
+    size: 3em;
+    weight: 100;
+    family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  //   quella sopra è una versione più leggibile di:
+  //   font-size: 3em;
+  //   font-weight: 100;
+  //   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+// D R Y (don't repeat yourself)
+
+// NUOVE DIRETTIVE DI SASS:
+// 1) EXTEND
+// @extend, usato in un blocco SCSS, riprende tutte le regole di un altro blocco
+// inizializza il nuovo blocco di stile a partire da uno precedentemente già scritto
+
+.box-1 {
+  width: 200px;
+  height: 200px;
+  color: white;
+  background-color: blue;
+  margin-bottom: 10px;
+}
+
+.box-2 {
+  @extend .box-1;
+  font-size: 3em;
+  background-color: red;
+}
+
+// 2) MIXIN
+// a volte @extend non è il miglior modo per creare una variante di una classe
+// in modo efficace
+// come vedremo @mixin ragiona in un modo più logico, simile alla programmazione
+// riusciremo a ricavare n classi diverse a partire da un punto di partenza (stampino)
+
+@mixin baseButton($mainColor) {
+  padding: 10px 20px;
+  display: inline-block;
+  text-transform: uppercase;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  background-color: $mainColor;
+  box-shadow: 0 0 20px $mainColor;
+  outline: 1px solid $mainColor;
+
+  &:hover {
+    box-shadow: none;
+    background-color: white;
+    color: $mainColor;
+  }
+}
+
+.button-green {
+  @include baseButton(green);
+}
+
+.button-red {
+  @include baseButton(red);
+}
+
+.button-special-green {
+  @include baseButton($special-green);
+}
+
+.button-special-red {
+  @include baseButton($special-red);
+}
+
+@mixin customParagraph($fontSize, $lSpacing) {
+  font: {
+    size: $fontSize;
+    family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  padding: 2em;
+  letter-spacing: $lSpacing;
+}
+
+.normalParagraph {
+  @include customParagraph(1.2em, normal);
+}
+
+.crazyParagraph {
+  @include customParagraph(1.5em, 0.5em);
+}
+
+// ESEMPIO DI INTERPOLAZIONE
+// per interpolare una variabile dentro una proprietà CSS
+// devo utilizzare #{ nome-proprietà }
+
+@mixin customBox($size, $val, $property) {
+  width: $size;
+  height: $size;
+  background-#{$property}: $val;
+}
+
+.custom-box-1 {
+  @include customBox(150px, orange, 'color');
+}
+
+.custom-box-2 {
+  @include customBox(250px, url(https://placekitten.com/250/250), 'image');
+}
+
+// possiamo anche passare ad un mixin attributi provenienti da variabili!
+// es.
+// $myUrl: url(https://placekitten.com/250/250);
+//
+// .custom-box-2 {
+//     @include customBox(250px, $myUrl, 'image');
+//   }
+
+// 3) COSTRUTTO IF/ELSE
+// questo ci permette di generare diversi blocchi di stile a seconda della
+// valutazione di una condizione
+// @if accetta un'espressione SASS come condizione, e ritornerà un blocco
+// di stile, dei mixins, etc.
+
+// immaginiamo di scrivere una libreria CSS personalizzabile dall'utente (come bootstrap)
+// l'utente ha la possibilità di impostare i propri colori, i propri margini, paddings etc.
+
+$generic-padding: 16px;
+// $ generic-padding può anche essere cambiato dall'utente,
+// 16px è il valore di default
+
+// il mio intento è quello di applicare un padding-top ad un paragrafo
+// sulla base del $generic-padding, che inizialmente era 16px ma può adesso
+// essere stato sovrascritto dall'utente con un valore diverso
+
+.par {
+  @if ($generic-padding < 16px) {
+    // questo blocco di stile verrà applicato a .par solamente
+    // se $generic-padding ha in questo momento un valore inferiore a 16px
+    padding-top: 1em;
+  } @else {
+    // questo blocco di stile invece verrà applicato a .par solamente se
+    // $generic-padding in questo momento ha un valore SUPERIORE a 16px
+    padding-top: $generic-padding;
+  }
+}
+
+// il blocco risultante, la classe .par avrà una sola proprietà padding-top
+// con un valore assegnato dinamicamente
+
+$template: standard;
+// $template può assumere 2 valori: standard o special
+
+$bg-standard: lightcyan;
+$text-standard: rgb(60, 60, 60);
+
+$bg-special: rgba(255, 0, 0, 0.5);
+$text-special: rgba(242, 229, 56, 0.5);
+
+@if (5 > 3) {
+  $template: special;
+}
+
+body {
+  @if ($template == standard) {
+    background-color: $bg-standard;
+    color: $text-standard;
+  } @else if ($template == special) {
+    background-color: $bg-special;
+    color: $text-special;
+  } @else {
+    background-color: #000;
+    color: #000;
+  }
+}
+
+// 4) CICLO FOR
+// un ciclo for anche in SASS è un costrutto che vi permette di eseguire un blocco
+// di istruzioni un predeterminato numero di volte
+// es: se parto da 0 e il mio contatore non deve superare 4, eseguirò le istruzioni
+// 5 volte
+// in JS: for(let i=0; i<5; i++) { // istruzioni eseguite 5 volte }
+
+// due strutture: una per includere il valore finale nel ciclo, una per escluderlo
+// @for $contatore from <start> to <end> <-- questo è un ciclo che NON comprende <end>
+// @for $contatore from <start> through <end> <-- quest è un ciclo che COMPRENDE <end>
+// utilizzando "to" è come se la seconda parte del for in JS avesse un <
+// utilizzando "through" è come se la seconda parte del for in JS avesse un <=
+
+// i cicli @for in SASS si utilizzano soprattutto per GENERARE CLASSI DINAMICAMENTE
+
+@for $i from 0 to 5 {
+  .custom-paragraph-#{$i} {
+    padding-left: $i * 12px;
+    color: green;
+  }
+}
+
+// 5) EACH
+// la direttiva @each ci permette di iterare tra gli elementi di una lista
+// possiamo restituire determinate istruzione per ogni elemento ciclato della lista
+
+// @each $variabile in <list>
+$colors: green, navy, yellow, pink, red;
+
+@each $c in $colors {
+  .paragraph-#{$c} {
+    color: $c;
+  }
+}

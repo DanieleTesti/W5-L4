@@ -1,0 +1,31 @@
+// 6) MEDIA QUERIES
+// con le media queries possiamo specificare diversi set di proprietà
+// a seconda della dimensione di schermo corrente
+
+// SASS permette di NIDIFICARE/ANNIDARE @media dentro altri tag!
+// questo vi consentirà di avere tutte le proprietà di un determinato
+// tipo raggruppate!
+// progetto -> più mantenibile, più leggibile
+
+.menu {
+  // <ul>
+  padding: 0px;
+  list-style-type: none;
+  // media query applicato all'ul con classe .menu
+  @media screen and (min-width: 576px) {
+    padding: 10px;
+    font-size: 1.2em;
+  }
+  li {
+    padding: 10px;
+    display: block;
+    text-align: center;
+    background-color: lightblue;
+    // media query applicato a ogni li dentro ul
+    @media screen and (min-width: 576px) {
+      display: inline;
+      background-color: white;
+      border-right: 1px solid black;
+    }
+  }
+}

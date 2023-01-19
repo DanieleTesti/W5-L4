@@ -1,0 +1,74 @@
+main {
+  display: flex;
+}
+
+nav {
+  background-color: greenyellow;
+}
+
+aside {
+  display: flex;
+}
+
+.sidebar {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(181, 255, 69, 0.654);
+  height: 100%;
+}
+.sidebar a {
+  -webkit-text-decoration-line: none;
+          text-decoration-line: none;
+  color: black;
+  padding: 10px;
+}
+.sidebar a:hover {
+  opacity: 0.5;
+}
+
+article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+}
+article .card {
+  margin: 20px 70px 20px 70px;
+  box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+}
+article .card .card-body {
+  align-items: flex-start;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+}
+article .card .card-body .description {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 400;
+}
+
+.place {
+  margin: 20px 0 20px 0;
+  background-color: lightgreen;
+}
+.place .all {
+  display: flex;
+}
+.place .all .thingsToDo > p {
+  margin: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 200;
+}
+.place .all .costo {
+  font-size: 1.2em;
+}
+
+.total-card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.place {
+  background-color: lightblue;
+}/*# sourceMappingURL=style.css.map */

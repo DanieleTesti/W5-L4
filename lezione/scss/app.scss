@@ -1,0 +1,81 @@
+@import "./partials/reset";
+@import "./partials/colors";
+
+h2 {
+  color: pink;
+}
+
+/*1) <<<<<<EXTEND>>>>>*/
+
+.box1 {
+  width: 300px;
+  height: 300px;
+  color: white;
+  background-color: blue;
+  margin-bottom: 10px;
+}
+
+.box2 {
+  @extend .box1; /*RIPRENDE TUTTE LE REGOLE DI UN ALTRO BLOCCO*/
+  font-size: 3em;
+  background-color: red;
+}
+
+/*2) <<<<<<MIXIN>>>>>*/
+
+@mixin baseButton($mainColor) {
+  text-transform: uppercase;
+  padding: 18px 20px;
+  display: inline-block;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: $mainColor;
+  box-shadow: 0 0 20px $mainColor;
+  outline: 1px solid $mainColor;
+  color: white;
+
+  &:hover {
+    box-shadow: none;
+    background-color: white;
+    color: $mainColor;
+  }
+}
+
+.button {
+  @include baseButton($special-green);
+}
+
+.button-red {
+  @include baseButton($special-red);
+}
+
+@mixin customParagraph($fontSize, $lSpacing) {
+  font: {
+    size: $fontSize;
+    family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
+  padding: 2em;
+  letter-spacing: $lSpacing;
+}
+
+.normal-paragraph {
+  @include customParagraph(1.2em, normal);
+}
+
+.crazy-paragraph {
+  @include customParagraph(1.5em, 0.5em);
+}
+
+/*3) <<<<<<IF/ELSE>>>>>*/
+
+$generic-padding: 16px;
+
+.par {
+  @if ($generic-padding<16px) {
+    padding-top: 1em;
+  } @else {
+    padding-top: $generic-padding;
+  }
+}
+
+/*4) <<<<<<OR>>>>>*/

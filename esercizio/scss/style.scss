@@ -1,0 +1,99 @@
+main {
+  display: flex;
+}
+
+nav {
+  background-color: greenyellow;
+}
+
+aside {
+  display: flex;
+}
+
+.sidebar {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(181, 255, 69, 0.654);
+  height: 100%;
+  a {
+    text-decoration-line: none;
+    color: black;
+    padding: 10px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+  .card {
+    margin: 20px 70px 20px 70px;
+    -webkit-box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 4px 4px 15px 0px rgba(0, 0, 0, 0.5);
+    .card-body {
+      align-items: flex-start;
+      flex-direction: column;
+      display: flex;
+      justify-content: space-between;
+      .description {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.place {
+  margin: 20px 0 20px 0;
+  background-color: lightgreen;
+  .all {
+    display: flex;
+    .thingsToDo > p {
+      margin: 10px;
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      font-weight: 200;
+    }
+    .costo {
+      font: {
+        size: 1.2em;
+      }
+    }
+  }
+}
+
+.total-card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@if (place: background-color==blue) {
+  .place {
+    background-color: lightblue;
+  }
+} @else {
+  .place {
+    background-color: red;
+  }
+}
+
+// @for $i from 0 to 5 {
+//   .lisa-#{$i} {
+//     padding-left: $i * 12px;
+//     color: green;
+//   }
+// }
+
+// $colors: green, navy, yellow, pink, red;
+
+// @each $c in $colors {
+//   .lisa-#{$c} {
+//     color: $c;
+//   }
+// }
